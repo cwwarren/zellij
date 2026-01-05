@@ -16,6 +16,7 @@ Options {
     mirror_session: None,
     on_force_close: None,
     scroll_buffer_size: None,
+    scroll_speed: None,
     copy_command: None,
     copy_clipboard: None,
     copy_on_select: None,

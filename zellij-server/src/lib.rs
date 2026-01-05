@@ -48,7 +48,8 @@ use route::{route_thread_main, NotificationEnd};
 use zellij_utils::{
     channels::{self, ChannelWithContext, SenderWithContext},
     consts::{
-        DEFAULT_SCROLL_BUFFER_SIZE, SCROLL_BUFFER_SIZE, ZELLIJ_SEEN_RELEASE_NOTES_CACHE_FILE,
+        DEFAULT_SCROLL_BUFFER_SIZE, DEFAULT_SCROLL_SPEED, SCROLL_BUFFER_SIZE, SCROLL_SPEED,
+        ZELLIJ_SEEN_RELEASE_NOTES_CACHE_FILE,
     },
     data::{
         ConnectToSession, Event, InputMode, KeyWithModifier, LayoutInfo, PluginCapabilities, Style,
@@ -1669,6 +1670,7 @@ fn init_session(
             .scroll_buffer_size
             .unwrap_or(DEFAULT_SCROLL_BUFFER_SIZE),
     );
+    let _ = SCROLL_SPEED.set(config_options.scroll_speed.unwrap_or(DEFAULT_SCROLL_SPEED));
 
     let (to_screen, screen_receiver): ChannelWithContext<ScreenInstruction> = channels::unbounded();
     let to_screen = SenderWithContext::new(to_screen);

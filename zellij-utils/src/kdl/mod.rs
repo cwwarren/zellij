@@ -2583,6 +2583,8 @@ impl Options {
         let scroll_buffer_size =
             kdl_property_first_arg_as_i64_or_error!(kdl_options, "scroll_buffer_size")
                 .map(|(scroll_buffer_size, _entry)| scroll_buffer_size as usize);
+        let scroll_speed = kdl_property_first_arg_as_i64_or_error!(kdl_options, "scroll_speed")
+            .map(|(scroll_speed, _entry)| scroll_speed as usize);
         let copy_command = kdl_property_first_arg_as_string_or_error!(kdl_options, "copy_command")
             .map(|(copy_command, _entry)| copy_command.to_string());
         let copy_clipboard =
@@ -2693,6 +2695,7 @@ impl Options {
             mirror_session,
             on_force_close,
             scroll_buffer_size,
+            scroll_speed,
             copy_command,
             copy_clipboard,
             copy_on_select,
@@ -3101,6 +3104,37 @@ impl Options {
             Some(node)
         } else if add_comments {
             let mut node = create_node(10000);
+            node.set_leading(format!("{}\n// ", comment_text));
+            Some(node)
+        } else {
+            None
+        }
+    }
+    fn scroll_speed_to_kdl(&self, add_comments: bool) -> Option<KdlNode> {
+        let comment_text = format!(
+            "{}\n{}\n{}\n{}\n{}\n{}\n{}",
+            " ",
+            "// Configure the number of lines scrolled per mouse wheel scroll event.",
+            "// Lower values mean slower scrolling, higher values mean faster.",
+            "// (Requires restart)",
+            "// Valid values: positive integers",
+            "// Default value: 3",
+            "// ",
+        );
+
+        let create_node = |node_value: usize| -> KdlNode {
+            let mut node = KdlNode::new("scroll_speed");
+            node.push(KdlValue::Base10(node_value as i64));
+            node
+        };
+        if let Some(scroll_speed) = self.scroll_speed {
+            let mut node = create_node(scroll_speed);
+            if add_comments {
+                node.set_leading(format!("{}\n", comment_text));
+            }
+            Some(node)
+        } else if add_comments {
+            let mut node = create_node(3);
             node.set_leading(format!("{}\n// ", comment_text));
             Some(node)
         } else {
@@ -3912,6 +3946,9 @@ impl Options {
         }
         if let Some(scroll_buffer_size) = self.scroll_buffer_size_to_kdl(add_comments) {
             nodes.push(scroll_buffer_size);
+        }
+        if let Some(scroll_speed) = self.scroll_speed_to_kdl(add_comments) {
+            nodes.push(scroll_speed);
         }
         if let Some(copy_command) = self.copy_command_to_kdl(add_comments) {
             nodes.push(copy_command);

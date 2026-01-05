@@ -11,6 +11,7 @@ use std::env::temp_dir;
 use std::net::IpAddr;
 use std::path::PathBuf;
 use uuid::Uuid;
+use zellij_utils::consts::{DEFAULT_SCROLL_SPEED, SCROLL_SPEED};
 use zellij_utils::data::PaneContents;
 use zellij_utils::data::{
     Direction, KeyWithModifier, NewPanePlacement, PaneInfo, PermissionStatus, PermissionType,
@@ -4256,9 +4257,11 @@ impl Tab {
                 MouseEventType::Release => self.handle_left_mouse_release(event, client_id),
             }
         } else if event.wheel_up {
-            self.handle_scrollwheel_up(&event.position, 3, client_id)
+            let scroll_speed = *SCROLL_SPEED.get().unwrap_or(&DEFAULT_SCROLL_SPEED);
+            self.handle_scrollwheel_up(&event.position, scroll_speed, client_id)
         } else if event.wheel_down {
-            self.handle_scrollwheel_down(&event.position, 3, client_id)
+            let scroll_speed = *SCROLL_SPEED.get().unwrap_or(&DEFAULT_SCROLL_SPEED);
+            self.handle_scrollwheel_down(&event.position, scroll_speed, client_id)
         } else if event.right && event.alt {
             self.mouse_hover_pane_id.remove(&client_id);
             Ok(MouseEffect::ungroup())

@@ -1569,6 +1569,8 @@ pub struct Options {
     pub enforce_https_for_localhost: ::core::option::Option<bool>,
     #[prost(string, optional, tag="39")]
     pub post_command_discovery_hook: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint32, optional, tag="40")]
+    pub scroll_speed: ::core::option::Option<u32>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]

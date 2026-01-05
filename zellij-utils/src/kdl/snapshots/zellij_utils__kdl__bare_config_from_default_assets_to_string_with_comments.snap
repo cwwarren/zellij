@@ -366,6 +366,14 @@ web_client {
 // 
 // scroll_buffer_size 10000
  
+// Configure the number of lines scrolled per mouse wheel scroll event.
+// Lower values mean slower scrolling, higher values mean faster.
+// (Requires restart)
+// Valid values: positive integers
+// Default value: 3
+// 
+// scroll_speed 3
+ 
 // Provide a command to execute when copying text. The text will be piped to
 // the stdin of the program to perform the copy. This can be used with
 // terminal emulators which do not support the OSC 52 ANSI control sequence
@@ -541,3 +549,4 @@ web_client {
 // can be useful for removing wrappers around commands
 // Note: be sure to escape backslashes and similar characters properly
 // post_command_discovery_hook "echo $RESURRECT_COMMAND | sed <your_regex_here>"
+

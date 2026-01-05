@@ -87,6 +87,11 @@ pub struct Options {
     #[clap(long, value_parser)]
     pub scroll_buffer_size: Option<usize>,
 
+    /// Set the number of lines scrolled per mouse wheel scroll event
+    #[clap(long, value_parser)]
+    #[serde(default)]
+    pub scroll_speed: Option<usize>,
+
     /// Switch to using a user supplied command for clipboard instead of OSC52
     #[clap(long, value_parser)]
     #[serde(default)]
@@ -284,6 +289,7 @@ impl Options {
         let theme = other.theme.or_else(|| self.theme.clone());
         let on_force_close = other.on_force_close.or(self.on_force_close);
         let scroll_buffer_size = other.scroll_buffer_size.or(self.scroll_buffer_size);
+        let scroll_speed = other.scroll_speed.or(self.scroll_speed);
         let copy_command = other.copy_command.or_else(|| self.copy_command.clone());
         let copy_clipboard = other.copy_clipboard.or(self.copy_clipboard);
         let copy_on_select = other.copy_on_select.or(self.copy_on_select);
@@ -342,6 +348,7 @@ impl Options {
             mirror_session,
             on_force_close,
             scroll_buffer_size,
+            scroll_speed,
             copy_command,
             copy_clipboard,
             copy_on_select,
@@ -405,6 +412,7 @@ impl Options {
         let theme = other.theme.or_else(|| self.theme.clone());
         let on_force_close = other.on_force_close.or(self.on_force_close);
         let scroll_buffer_size = other.scroll_buffer_size.or(self.scroll_buffer_size);
+        let scroll_speed = other.scroll_speed.or(self.scroll_speed);
         let copy_command = other.copy_command.or_else(|| self.copy_command.clone());
         let copy_clipboard = other.copy_clipboard.or(self.copy_clipboard);
         let copy_on_select = other.copy_on_select.or(self.copy_on_select);
@@ -459,6 +467,7 @@ impl Options {
             mirror_session,
             on_force_close,
             scroll_buffer_size,
+            scroll_speed,
             copy_command,
             copy_clipboard,
             copy_on_select,

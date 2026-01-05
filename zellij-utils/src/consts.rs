@@ -13,6 +13,8 @@ pub const ZELLIJ_LAYOUT_DIR_ENV: &str = "ZELLIJ_LAYOUT_DIR";
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const DEFAULT_SCROLL_BUFFER_SIZE: usize = 10_000;
 pub static SCROLL_BUFFER_SIZE: OnceLock<usize> = OnceLock::new();
+pub const DEFAULT_SCROLL_SPEED: usize = 3;
+pub static SCROLL_SPEED: OnceLock<usize> = OnceLock::new();
 pub static DEBUG_MODE: OnceLock<bool> = OnceLock::new();
 
 pub const SYSTEM_DEFAULT_CONFIG_DIR: &str = "/etc/zellij";
